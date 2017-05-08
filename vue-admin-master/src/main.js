@@ -13,6 +13,16 @@ import routes from './routes'
 import Mock from './mock'
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
+import AMap from 'vue-amap';
+Vue.use(AMap);
+
+// 初始化vue-amap
+AMap.initAMapApiLoader({
+  // 申请的高德key
+  key: '1fecbc9f8ffcde7f91a6413b371ceeb4',
+  // 插件集合
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
+});
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

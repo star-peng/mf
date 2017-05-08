@@ -22,15 +22,15 @@
 		<el-table :data="users" highlight-current-row border v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
 			<el-table-column type="index" label="序号" width="80">
 			</el-table-column>
-			<el-table-column prop="name" label="姓名" width="90" sortable>
+			<el-table-column prop="name" label="姓名" width="90" >
 			</el-table-column>
-			<el-table-column prop="sex" label="电话号" width="200" :formatter="formatSex" sortable>
+			<el-table-column prop="sex" label="电话号" width="200" :formatter="formatSex">
 			</el-table-column>
-			<el-table-column prop="age" label="角色" width="200" sortable>
+			<el-table-column prop="age" label="角色" width="200" >
 			</el-table-column>
-			<el-table-column prop="birth" label="创建时间" width="120" sortable>
+			<el-table-column prop="birth" label="创建时间" width="120" >
 			</el-table-column>
-			<el-table-column prop="addr" label="帐号" min-width="150" sortable>
+			<el-table-column prop="addr" label="帐号" min-width="150" >
 			</el-table-column>
 			<el-table-column label="操作" width="300">
 				<template scope="scope">
@@ -87,14 +87,17 @@
 				<el-form-item label="电话号码">
 			<el-input v-model="addForm.phone"></el-input>
 				</el-form-item>
-				<el-form-item label="年龄">
-					<el-input-number v-model="addForm.age" :min="0" :max="200"></el-input-number>
+				<el-form-item label="电话号码">
+			<el-input v-model="addForm.phone"></el-input>
 				</el-form-item>
-				<el-form-item label="生日">
-					<el-date-picker type="date" placeholder="选择日期" v-model="addForm.birth"></el-date-picker>
+				<el-form-item label="角色">
+			<el-input v-model="addForm.phone"></el-input>
 				</el-form-item>
-				<el-form-item label="地址">
-					<el-input type="textarea" v-model="addForm.addr"></el-input>
+				<el-form-item label="创建时间">
+			<el-input v-model="addForm.phone"></el-input>
+				</el-form-item>
+				<el-form-item label="帐号">
+			<el-input v-model="addForm.phone"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">

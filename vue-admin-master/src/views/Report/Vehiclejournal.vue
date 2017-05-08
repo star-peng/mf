@@ -55,7 +55,7 @@
         <el-table-column
       prop="name"
       label="操作日志"
-      width="646">
+      width="642">
     </el-table-column>
      <el-table-column
       prop="name"

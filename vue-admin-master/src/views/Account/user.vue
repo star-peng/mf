@@ -29,7 +29,7 @@
         <el-table-column
       prop="name"
       label="角色说明"
-      width="527">
+      width="522">
     </el-table-column>
         <el-table-column
       prop="name"
@@ -220,6 +220,20 @@ const cityOptionsd = ['账号管理', '角色管理'];
         this.checkAlld = checkedCountd === this.citiesd.length;
         this.isIndeterminated = checkedCountd> 0 && checkedCountd < this.citiesd.length;
     },
+    getUsers() {
+        let para = {
+          page: this.page,
+          name: this.filters.name
+        };
+        this.listLoading = true;
+        //NProgress.start();
+        getUserListPage(para).then((res) => {
+          this.total = res.data.total;
+          this.users = res.data.users;
+          this.listLoading = false;
+          //NProgress.done();
+        });
+      },
       //删除
       handleDel: function (index, row) {
         this.$confirm('确认删除该记录吗?', '提示', {

@@ -8,8 +8,9 @@ import Page4 from './views/Report/Vehiclereport.vue'
 import Page5 from './views/Report/Vehiclejournal.vue'
 import Battery from './views/Report/Batteryreport.vue'
 import Batterylg from './views/Report/Batterylog.vue'
-import echarts from './views/Riskcontrol/echarts.vue'
+import realtime from './views/Riskcontrol/realtime.vue'
 import Historical from './views/Riskcontrol/Historical.vue'
+import Monitoring from './views/Riskcontrol/Monitoring.vue'
 let routes = [
     {
         path: '/login',
@@ -36,7 +37,7 @@ let routes = [
         ]
     },
     {
-        path: '/',
+        path: '/',  
         component: Home,
         name: '报表统计',
         iconCls: 'fa fa-id-card-o',
@@ -52,17 +53,20 @@ let routes = [
         component: Home,
         name: '风控管理',
         iconCls: 'fa fa-bar-chart',
-            children: [
-                {   path : 'echarts', component: echarts ,name: '监控管理',iconCls: 'fa fa-bar-chart',
-                    children: [
-                        { 
-                            path : '/Historical', 
-                            component: Historical,
-                            name: '历史轨迹'
-                        } 
-                    ]
-                } 
-            ]
+        children: [
+            { path : '/Monitoring', component: Monitoring,name: '监控管理' },
+            {
+              path: '/',
+              name: '监控管理',
+              component:Historical,
+              show:true,
+              hidden: true,
+              children: [
+                    { path : '/Historical', component:Historical,name: '历史轨迹'},
+                    { path : '/realtime', component: realtime,name: '实时监控'}
+               ]
+            },
+        ]
 
     },
     {

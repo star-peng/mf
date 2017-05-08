@@ -29,6 +29,11 @@
 						<el-submenu :index="index+''" v-if="!item.leaf">
 							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
 							<el-menu-item v-for="child in item.children" :index="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
+							
+							<el-submenu v-for="child in item.children" v-if="child.show">
+					          <template slot="title">{{child.name}}</template>
+					          <el-menu-item v-for="subChild in child.children" :index="subChild.path">{{subChild.name}}</el-menu-item>
+					        </el-submenu>
 						</el-submenu>
 						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
 					</template>

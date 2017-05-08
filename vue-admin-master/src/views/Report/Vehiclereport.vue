@@ -366,7 +366,7 @@
   clear:both; 
 }
   .block{
-    margin-top: 40px;
+    margin-top: 20px;
   }
  .se{
   width: 92px;
@@ -382,15 +382,12 @@
  }
  .bi{
   margin-top: 20px;
-  text-align: center;
  }
   .bis{
   margin-top: 20px;
   text-align: center;
  }
-.el-table th > .cell{
-  text-align: center;
-}
+
 .foot{
   margin-top: 40px;
   float: right;
