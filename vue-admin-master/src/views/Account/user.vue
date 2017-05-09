@@ -1,9 +1,9 @@
 <template>
 <div class="top">
-模糊搜索：<el-input v-model="input" class='int' placeholder="姓名/手机号"></el-input>
+模糊搜索：<el-input v-model="filters.name" class='int' placeholder="姓名/手机号"></el-input>
  
   <span class="wrapper">
-    <el-button   type="primary">查询</el-button>
+    <el-button   type="primary" v-on:click="getUsers">查询</el-button>
     <el-button  type="primary">导出</el-button>
   </span>
 <div class="mr">显示1到6总数6条</div>
@@ -37,7 +37,7 @@
       width="300">
       <template scope="scope">
 				    <el-button size="small"  @click="dialogFormVisible = true">修改帐号</el-button>
-				    <el-button :plain="true" type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除角色</el-button>
+				    <el-button :plain="true" type="danger" size="small" @click="handleDels(scope.$index, scope.row)">删除角色</el-button>
 					<el-button type="danger" size="small"  @click="dialogFormVisibles = true">设置权限</el-button>
 					
 				</template>
@@ -126,7 +126,9 @@ const cityOptionsd = ['账号管理', '角色管理'];
 	 export default {
     data() {
       return {
-
+          filters: {
+                    name: ''
+                  },
         checkAll: true,
         checkedCities: [],
         cities: cityOptions,
@@ -145,11 +147,11 @@ const cityOptionsd = ['账号管理', '角色管理'];
       	 tableData: [{
           name: '王小虎',
         }, {
-          name: '王小虎',
+          name: '小虎',
         }, {
-          name: '王小虎',
+          name: '小虎',
         }, {
-          name: '王小虎',
+          name: '小虎',
         }, {
           name: '王小虎',
         }, {
@@ -235,7 +237,7 @@ const cityOptionsd = ['账号管理', '角色管理'];
         });
       },
       //删除
-      handleDel: function (index, row) {
+      handleDels: function (index, row) {
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {

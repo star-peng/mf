@@ -55,17 +55,10 @@ let routes = [
         iconCls: 'fa fa-bar-chart',
         children: [
             { path : '/Monitoring', component: Monitoring,name: '监控管理' },
-            {
-              path: '/',
-              name: '监控管理',
-              component:Historical,
-              show:true,
-              hidden: true,
-              children: [
-                    { path : '/Historical', component:Historical,name: '历史轨迹'},
-                    { path : '/realtime', component: realtime,name: '实时监控'}
-               ]
-            },
+            { path : '/Historical', component:Historical,name: '历史轨迹'},
+            { path : '/realtime', component: realtime,name: '实时监控'}
+ 
+            
         ]
 
     },

@@ -53,30 +53,29 @@
   <div class="bi">
   <el-table
     :data="tableData"
-    border
-    style="width: 100%">
+    border>
     <el-table-column
-      prop="address"
+      prop="totalCount"
       label="共计">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="allOperationCount"
       label="运营中">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="inUsingCount"
       label="使用中">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="isLoseCount"
       label="暂时丢失">
     </el-table-column>
      <el-table-column
-      prop="address"
+      prop="nonOperationalCount"
       label="非运营">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="notInStorageCount"
       label="未入库">
     </el-table-column>
     <el-table-column
@@ -88,19 +87,19 @@
       label="已充满">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="inCollarCount"
       label="领用中">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="inRecyclingCount"
       label="回收中">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="inRepairCount"
       label="维修中">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="isScrapCount"
       label="已报废">
     </el-table-column>
   </el-table>
@@ -111,10 +110,9 @@
 <div class="bis">
   <el-table
     :data="tableData1"
-    border
-    style="width:100%">
+    border>
     <el-table-column
-      prop="address"
+      prop="code"
       label="电池编号">
     </el-table-column>
     <el-table-column
@@ -122,15 +120,15 @@
       label="运营状态">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="battCode"
       label="电池终端编号">
     </el-table-column>
         <el-table-column
-      prop="address"
+      prop="isOnline"
       label="在线状态">
     </el-table-column>
         <el-table-column
-      prop="address"
+      prop="margin"
       label="电量">
     </el-table-column>
         <el-table-column
@@ -138,11 +136,11 @@
       label="上报时间">
     </el-table-column>
         <el-table-column
-      prop="address"
+      prop="gpsName"
       label="电池位置">
     </el-table-column>
         <el-table-column
-      prop="address"
+      prop="inStoreUserName"
       label="入库人员">
     </el-table-column>
         <el-table-column
@@ -243,64 +241,8 @@
             return time.getTime() < Date.now() - 8.64e7;
           }
         },
-        tableData: [{
-          date: '1',
-          name: '4',
-          address: '6'
-        }],
-         tableData1: [{
-          date: '1',
-          name: '4',
-          address: '6'
-        },
-        {
-          date: '1',
-          name: '4',
-          address: '6'
-        },
-        {
-          date: '1',
-          name: '4',
-          address: '6'
-        },
-        {
-          date: '1',
-          name: '4',
-          address: '6'
-        },
-        {
-          date: '1',
-          name: '4',
-          address: '6'
-        },
-        {
-          date: '1',
-          name: '4',
-          address: '6'
-        },
-        {
-          date: '1',
-          name: '4',
-          address: '6'
-        },
-        {
-          date: '1',
-          name: '4',
-          address: '6'
-        },{
-          date: '1',
-          name: '4',
-          address: '6'
-        }
-        ,{
-          date: '1',
-          name: '4',
-          address: '6'
-        },{
-          date: '1',
-          name: '4',
-          address: '6',
-        }],
+        tableData: [],
+         tableData1: [],
         optionss: [{
           values: '选项1',
           labels: '黄金糕'
@@ -328,6 +270,12 @@
          input: ''
 
       }
+    },
+    mounted(){
+      var json={"allOperationCount":363,"authorityList":[{"id":1,"name":"查询"}],"code":0,"inCollarCount":1,"inRecyclingCount":1,"inRepairCount":0,"inStorageCount":364,"inUsingCount":363,"isLoseCount":0,"isScrapCount":0,"message":"成功获取电池报表","nonOperationalCount":440,"notInStorageCount":23,"page":{"endRow":10,"firstPage":true,"hasNextPage":true,"hasPrePage":false,"lastPage":false,"nextPage":2,"offset":0,"orderBySetted":false,"pageNo":1,"pageSize":10,"pd":{"endTime":"","onlineState":"","pageNo":"1","pageSize":"10","researchWord":"","resourceId":"8","startTime":"","state":"","userId":"24","yunyingState":""},"prePage":1,"result":[{"battCode":"695502000448766","code":"B00000817","id":"826","inStoreUserName":"周晓松","isOnline":1,"margin":0.6,"state":5,"updateTime":"2017-04-28 21:05:49","useNum":10},{"battCode":"695502000446786","code":"B00000876","id":"831","inStoreUserName":"周晓松","isOnline":1,"margin":0.6,"state":5,"updateTime":"2017-04-28 21:05:45","useNum":11},{"battCode":"695502000447701","code":"B00000662","id":"460","inStoreUserName":"周晓松","isOnline":1,"margin":0.4,"state":5,"updateTime":"2017-04-28 21:05:43","useNum":13},{"battCode":"695502000448568","code":"B00000721","id":"403","inStoreUserName":"周晓松","isOnline":1,"margin":0.4,"state":5,"updateTime":"2017-04-28 21:05:37","useNum":13},{"battCode":"695502000444641","code":"B00000343","id":"584","inStoreUserName":"周晓松","isOnline":1,"margin":0.5,"state":5,"updateTime":"2017-04-28 21:05:37","useNum":14},{"battCode":"695502000444849","code":"B00000399","id":"553","inStoreUserName":"周晓松","isOnline":1,"margin":0.4,"state":5,"updateTime":"2017-04-28 21:05:37","useNum":7},{"battCode":"695502000445275","code":"B00000456","id":"662","inStoreUserName":"周晓松","isOnline":1,"margin":0.5,"state":5,"updateTime":"2017-04-28 21:05:37","useNum":8},{"battCode":"695502000444658","code":"B00000351","id":"555","inStoreUserName":"周晓松","isOnline":1,"margin":0.8,"state":5,"updateTime":"2017-04-28 21:05:37","useNum":14},{"battCode":"695502000438700","code":"B00000096","id":"178","inStoreUserName":"郑州运输地勤1","isOnline":1,"margin":0,"state":5,"updateTime":"2017-04-28 21:05:37","useNum":0},{"battCode":"695502000447420","code":"B00000699","id":"658","inStoreUserName":"周晓松","isOnline":1,"margin":0.3,"state":5,"updateTime":"2017-04-28 21:05:37","useNum":8}],"startRow":1,"totalItems":803,"totalPages":81},"toBeIssuedCount":51,"totalCount":803
+    };
+      this.tableData1=json.page.result;
+      this.tableData.push(json)
     }
   }
 </script>
