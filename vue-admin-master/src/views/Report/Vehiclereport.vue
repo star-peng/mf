@@ -1,20 +1,20 @@
 <template>
 <div class="block">
-运营状态：<el-select class='se' v-model="value0" placeholder="请选择">
+运营状态：<el-select class='se' v-model="province" placeholder="请选择" filterable @change="provinceChange">
     <el-option
-      v-for="item in option0"
-      :key="item.value0"
-      :label="item.label0"
-      :value="item.value0">
+      v-for="item in provinceOptions"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
     </el-option>
   </el-select>
 
-车辆状态：<el-select class='se' v-model="value1" placeholder="请选择">
+车辆状态：<el-select class='se' v-model="city" placeholder="请选择" filterable>
     <el-option
-      v-for="item in options1"
-      :key="item.value1"
-      :label="item.label1"
-      :value="item.value1">
+      v-for="item in cityOptions"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
     </el-option>
   </el-select>
 
@@ -52,7 +52,7 @@
   </el-select>
   模糊搜索：<el-input  class='ints' placeholder="请输入内容"></el-input>
   <span class="wrapper">
-    <el-button type="primary">查询</el-button>
+    <el-button type="primary" v-on:click="getUsers">查询</el-button>
     <el-button type="primary">导出</el-button>
   </span>
 
@@ -60,7 +60,7 @@
   <template>
   <div class="bi">
   <el-table
-    :data="tableData0"
+    :data="userss"
     border
     style="width: 100%">
     <el-table-column
@@ -122,11 +122,18 @@
   </el-table>
   </div>
 </template>
-
+<el-select v-model="values" class='qx' placeholder="更多">
+    <el-option
+      v-for="item in optionss"
+      :key="item.values"
+      :label="item.labels"
+      :value="item.values">
+    </el-option>
+  </el-select>
 <template>
 <div class="bis">
   <el-table
-    :data="tableData1"
+    :data="userss"
     border
     style="width: 100%">
     <el-table-column
@@ -142,9 +149,8 @@
     <el-table-column
       prop="boxCode"
       label="车辆终端编号"
-      width='120'>
+      width='130'>
     </el-table-column>
-
         <el-table-column
       prop="batteryNo"
       label="电池编号"
@@ -158,7 +164,7 @@
         <el-table-column
       prop="margin"
       label="电量"
-      width='60'>
+      width='80'>
     </el-table-column>
         <el-table-column
       prop="localCity"
@@ -168,24 +174,16 @@
         <el-table-column
       prop="batteryState"
       label="电机状态"
-      width='60'>
+      width='100'>
     </el-table-column>
         <el-table-column
       prop="initInStoreTime"
       label="车辆入库时间">
     </el-table-column>
         <el-table-column
-      prop="address"
       label="操作">
       <template scope="scope">
-  <el-select v-model="values" placeholder="请选择">
-    <el-option
-      v-for="item in optionss"
-      :key="item.values"
-      :label="item.labels"
-      :value="item.values">
-    </el-option>
-  </el-select>
+  
       </template>
     </el-table-column>
   </el-table>
@@ -201,27 +199,37 @@
 
 </div>
 
-
-
-  
 </template>
 
 <script>
+  import util from '../../common/js/util'
+  //import NProgress from 'nprogress'
+  import { carUserList, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
+
   export default {
+    props: ['provinceValue','cityValue'],
     data() {
       return {
-        tableData0:[],
-         tableData1: [],
-        option0: [{
-          value0: '0',
-          label0: '全部'
-        }, {
-          value0: '1',
-          label0: '运营中'
-        }, {
-          value0: '2',
-          label0: '非运营'
-        }],
+      province: this.provinceValue,
+            city:this.cityValue,
+            provinceOptions: [{
+              value: 0,
+              label: '全部'
+             },{
+              value: 1,
+              label: '运营中'
+             }, {
+              value: 2,
+              label: '非运营'
+             }],
+            cityOptions:[],
+
+        userss:[],
+
+          filters: {
+                    code: ''
+                  } ,
+        // users: [],
         options1: [{
           value1: '0',
           label1: '全部'
@@ -291,19 +299,22 @@
         },
         optionss: [{
           values: '选项1',
-          labels: '黄金糕'
+          labels: '车辆日志'
         }, {
           values: '选项2',
-          labels: '双皮奶'
+          labels: '维修模式'
         }, {
           values: '选项3',
-          labels: '蚵仔煎'
+          labels: '待租模式'
         }, {
           values: '选项4',
-          labels: '龙须面'
+          labels: '鸣笛寻车'
         }, {
           values: '选项5',
-          labels: '北京烤鸭'
+          labels: '修改车辆状态'
+        }, {
+          values: '选项6',
+          labels: '标记为失控'
         }],
         values: '',
 
@@ -312,195 +323,62 @@
         value2:'',
         value3:'',
         value4:'',
-        value5:'',
-
+        value5:''
       }
     },
-    mounted(){
-      var json={
-    "allOperationCount":335,
-    "authorityList":[
-        {
-            "id":1,
-            "name":"查询"
+   methods: {
+      //获取用户列表
+      getUsers() {
+              let para = {
+                userId: 1,
+                resourceId:0
+              };
+              //NProgress.start();
+
+              console.log(carUserList(para));
+
+              carUserList(para).then((res) => {
+                console.log(res);
+                this.userss = res.data.userss;
+              },(reg)=>{
+                console.log(reg);
+              });
+            },
+            provinceChange(val){
+            let vm = this;
+            switch(val){
+                case 0:
+                    vm.cityOptions = [{"value":"全部"}];
+                break;
+                case 1:
+                    vm.cityOptions = [
+                        {"value":"待出租"},
+                        {"value":"已预定"},
+                        {"value":"已出租"},
+                        {"value":"维护中"}
+                     ];
+                break;
+                case 2:
+                    vm.cityOptions = [
+                        {"value":"未入库"},
+                        {"value":"库存中"},
+                        {"value":"待上线"},
+                        {"value":"返修中"},
+                        {"value":"已报废"},
+                        {"value":"已下线"},
+                        {"value":"已暂时丢失"}
+                     ];
+                break;
+            };
+            vm.cityValue = "";
         }
-    ],
-    "backRepairCount":0,
-    "code":0,
-    "inDownlineCount":0,
-    "inOperationCount":227,
-    "inRepairCount":0,
-    "inReserveCount":0,
-    "inRunningCount":0,
-    "inStorageCount":0,
-    "isLoseCount":0,
-    "isScrapCount":0,
-    "message":"成功获取车辆报表",
-    "nonOperationalCount":0,
-    "page":{
-        "endRow":10,
-        "firstPage":true,
-        "hasNextPage":true,
-        "hasPrePage":false,
-        "lastPage":false,
-        "nextPage":2,
-        "offset":0,
-        "orderBySetted":false,
-        "pageNo":1,
-        "pageSize":10,
-        "pd":{
-            "endTime":"",
-            "hasBattery":"",
-            "onlineState":"",
-            "pageNo":"1",
-            "pageSize":"10",
-            "researchWord":"",
-            "resourceId":"8",
-            "startTime":"",
-            "state":"",
-            "userId":"24",
-            "yunyingState":"1"
-        },
-        "prePage":1,
-        "result":[
-            {
-                "batteryNo":"B00000705",
-                "batteryState":1,
-                "code":"106499074",
-                "initInStoreTime":"2017-05-02 00:10:09",
-                "isOnline":1,
-                "localCity":"",
-                "margin":1,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000736",
-                "batteryState":1,
-                "code":"106499097",
-                "initInStoreTime":"2017-05-02 00:12:12",
-                "isOnline":1,
-                "localCity":"",
-                "margin":1,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000676",
-                "batteryState":1,
-                "code":"000000161",
-                "initInStoreTime":"2017-04-03 23:49:19",
-                "isOnline":1,
-                "localCity":"安徽省芜湖市无为县无城镇鸿运花园",
-                "margin":0.8,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000733",
-                "batteryState":1,
-                "code":"000000135",
-                "initInStoreTime":"2017-03-28 23:11:55",
-                "isOnline":1,
-                "localCity":"安徽省芜湖市无为县无城镇铁山西路",
-                "margin":0.4,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000058",
-                "batteryState":1,
-                "code":"000000088",
-                "initInStoreTime":"2017-03-06 03:54:34",
-                "isOnline":1,
-                "localCity":"北京市朝阳区望京街道阜通东大街",
-                "margin":1,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000391",
-                "batteryState":1,
-                "code":"000000246",
-                "initInStoreTime":"2017-03-26 08:47:33",
-                "isOnline":1,
-                "localCity":"安徽省芜湖市无为县无城镇畔庄小区",
-                "margin":0.8,
-                "motorLockState":1,
-                "state":5,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000551",
-                "batteryState":1,
-                "code":"106499198",
-                "initInStoreTime":"2017-05-02 00:09:41",
-                "isOnline":1,
-                "localCity":"",
-                "margin":1,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000700",
-                "batteryState":1,
-                "code":"000000402",
-                "initInStoreTime":"2017-04-09 11:39:32",
-                "isOnline":1,
-                "localCity":"",
-                "margin":0.9,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000805",
-                "batteryState":1,
-                "code":"000000400",
-                "initInStoreTime":"2017-04-05 14:20:00",
-                "isOnline":1,
-                "localCity":"安徽省芜湖市无为县无城镇御景苑",
-                "margin":1,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            },
-            {
-                "batteryNo":"B00000701",
-                "batteryState":1,
-                "code":"106499120",
-                "initInStoreTime":"2017-05-02 00:37:37",
-                "isOnline":1,
-                "localCity":"",
-                "margin":1,
-                "motorLockState":1,
-                "state":4,
-                "updateTime":"2017-05-02 11:25:47"
-            }
-        ],
-        "startRow":1,
-        "totalItems":335,
-        "totalPages":34
-    },
-    "toBeOutOfTheLiberyCont":0,
-    "totalCount":335, 
-    "waitOnlineCount":0
-};
-console.log(json.page.result);
 
-this.tableData1=json.page.result;
-this.tableData0.push(json)
-console.log(this.tableData0)
-
+      },
+    mounted() {
+      this.getUsers();
+    }
 
     }
-  }
 </script>
 <style lang="scss">
 
@@ -519,14 +397,14 @@ console.log(this.tableData0)
  .ca{
   margin-left: 40px;
  }
- .bi{
-  margin-top: 20px;
- }
-  .bis{
-  margin-top: 20px;
 
- }
-
+  
+.qx{
+position:absolite;
+top:100px;
+left:1354px;
+z-index:100;
+}
 .foot{
   margin-top: 40px;
   float: right;

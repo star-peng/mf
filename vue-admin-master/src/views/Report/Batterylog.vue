@@ -30,7 +30,7 @@
     <el-table-column
       prop="logId"
       label="日志ID"
-      width="100">
+      width="250">
     </el-table-column>
     <el-table-column
       prop="batteryId"
@@ -55,7 +55,7 @@
      <el-table-column
       prop="createTime"
       label="入库时间"
-      width="450">
+      width="300">
     </el-table-column>
   </el-table>
   </div>

@@ -105,7 +105,14 @@
   </el-table>
   </div>
 </template>
-
+  <el-select v-model="values" class='qxx' placeholder="请选择">
+    <el-option
+      v-for="item in optionss"
+      :key="item.values"
+      :label="item.labels"
+      :value="item.values">
+    </el-option>
+  </el-select>
 <template>
 <div class="bis">
   <el-table
@@ -116,7 +123,7 @@
       label="电池编号">
     </el-table-column>
     <el-table-column
-      prop="address"
+      prop="state"
       label="运营状态">
     </el-table-column>
     <el-table-column
@@ -132,7 +139,7 @@
       label="电量">
     </el-table-column>
         <el-table-column
-      prop="address"
+      prop="updateTime"
       label="上报时间">
     </el-table-column>
         <el-table-column
@@ -147,14 +154,6 @@
       prop="ass"
       label="操作">
       <template scope="scope">
-  <el-select v-model="values" placeholder="请选择">
-    <el-option
-      v-for="item in optionss"
-      :key="item.values"
-      :label="item.labels"
-      :value="item.values">
-    </el-option>
-  </el-select>
       </template>
     </el-table-column>
   </el-table>
@@ -245,19 +244,7 @@
          tableData1: [],
         optionss: [{
           values: '选项1',
-          labels: '黄金糕'
-        }, {
-          values: '选项2',
-          labels: '双皮奶'
-        }, {
-          values: '选项3',
-          labels: '蚵仔煎'
-        }, {
-          values: '选项4',
-          labels: '龙须面'
-        }, {
-          values: '选项5',
-          labels: '北京烤鸭'
+          labels: '电池日志'
         }],
         values: '',
 
@@ -307,7 +294,13 @@
   margin-top: 20px;
  
  }
-
+.qxx{
+  width: 120px;
+position:absolite;
+top:100px;
+left:1460px;
+z-index:100;
+}
 .foot{
   margin-top: 40px;
   float: right;
